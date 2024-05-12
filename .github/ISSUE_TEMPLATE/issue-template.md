@@ -1,5 +1,5 @@
 ---
-name: Gs Hometown Server Issue Template
+name: Issue Template
 about: Suggest an idea for this project
 title: ''
 labels: feature, gs hometown
