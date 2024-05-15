@@ -12,7 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {IllegalArgumentException.class, MethodArgumentTypeMismatchException.class})
-    public ResponseDto<?> handleIllegalArgumentException(final Exception e) {
+    public ResponseDto<?> handleIllegalArgumentException(final IllegalArgumentException e) {
         log.error(e.getMessage());
         return ResponseDto.fail(e);
     }
@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {CommonException.class})
     public ResponseDto<?> handleCommonException(final CommonException e) {
         log.error(e.getMessage());
+        e.printStackTrace();
         return ResponseDto.fail(HttpStatus.INTERNAL_SERVER_ERROR, e);
     }
 }

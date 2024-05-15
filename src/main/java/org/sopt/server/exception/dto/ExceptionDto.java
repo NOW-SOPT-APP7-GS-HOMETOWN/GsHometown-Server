@@ -1,7 +1,9 @@
 package org.sopt.server.exception.dto;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public class ExceptionDto {
     private final String code;
