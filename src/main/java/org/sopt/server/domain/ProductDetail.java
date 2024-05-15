@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -35,6 +36,6 @@ public class ProductDetail {
     /* OneToOne에서는 관계의 소유자만 mappedBy 사용 */
     /* mappedBy 옵션 제거 -> Product에서 ProductDetail 조인하지 못하는 문제 해결 */
     @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 }

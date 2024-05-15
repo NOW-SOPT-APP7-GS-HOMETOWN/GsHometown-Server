@@ -53,7 +53,6 @@ public class Product {
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
-    @PrimaryKeyJoinColumn(name = "product_detail_info_id")
     @OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
     private ProductDetail productDetail;
 
