@@ -27,8 +27,9 @@ public class Review {
     @Column(name = "content", nullable = false)
     private String content;
 
+    /* TODO: .0 또는 .5 단위의 소수만 가능하게 제한 */
     @Column(name = "star", nullable = false)
-    private Integer star;
+    private Float star;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
