@@ -5,6 +5,7 @@ import org.sopt.server.common.dto.ResponseDto;
 import org.sopt.server.service.ProductService;
 import org.sopt.server.service.dto.ProductDetailDto;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -20,7 +21,7 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ResponseDto<ProductDetailDto> getProductDetailInfo(
             @RequestHeader(name = "memberId") final Long memberId,
-            @RequestParam(name = "productId") final Long productId
+            @PathVariable(name = "productId") final Long productId
     ) {
         return ResponseDto.success(productService.getProductDetailInfo(memberId, productId));
     }
