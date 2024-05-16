@@ -6,7 +6,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.sopt.server.domain.Like;
 import org.sopt.server.domain.Product;
-import org.sopt.server.domain.ProductDetail;
 import org.sopt.server.domain.Review;
 import org.sopt.server.domain.type.Category;
 import org.sopt.server.exception.CommonException;
@@ -33,9 +32,6 @@ public class ProductService {
 
         Product product = productRepository.findByIdOrThrow(productId);
 
-        /* product detail info: thumbnail, detail image, is receive available */
-        ProductDetail productDetail = productDetailRepository.findByProductIdOrThrow(productId);
-
         /* isLiked */
         Optional<Like> like = likeRepository.findByMemberIdAndProductId(memberId, productId);
         boolean isLiked = like.isPresent();
@@ -45,7 +41,7 @@ public class ProductService {
         int reviewCount = reviews.size();
         Float starRating = getStarRating(reviews);
 
-        return ProductDetailDto.of(product, productDetail, isLiked, starRating, reviewCount);
+        return ProductDetailDto.of(product, isLiked, starRating, reviewCount);
     }
 
     public List<CategoryProductsDto> getCategoryProducts() {
