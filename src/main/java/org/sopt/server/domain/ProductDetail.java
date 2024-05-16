@@ -7,32 +7,34 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "reviews")
-public class Review {
+@Table(name = "product_details")
+public class ProductDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "thumbnail", nullable = false)
+    private String thumbnail;
 
-    /* TODO: .0 또는 .5 단위의 소수만 가능하게 제한 */
-    @Column(name = "star", nullable = false)
-    private Float star;
+    @Column(name = "detail_image", nullable = false)
+    private String detailImage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "is_receive_available", nullable = false)
+    private boolean isReceiveAvailable;
+
+    /* OneToOne에서는 관계의 소유자만 mappedBy 사용 */
+    /* mappedBy 옵션 제거 -> Product에서 ProductDetail 조인하지 못하는 문제 해결 */
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 }
