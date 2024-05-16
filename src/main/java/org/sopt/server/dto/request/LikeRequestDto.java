@@ -1,8 +1,6 @@
 package org.sopt.server.dto.request;
 
-import lombok.Getter;
-
-public record LikeAddDto(
+public record LikeRequestDto(
         Long productId
 ) {
 }
