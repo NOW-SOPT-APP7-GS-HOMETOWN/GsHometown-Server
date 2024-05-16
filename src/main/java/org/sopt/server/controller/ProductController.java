@@ -3,7 +3,7 @@ package org.sopt.server.controller;
 import lombok.RequiredArgsConstructor;
 import org.sopt.server.common.dto.ResponseDto;
 import org.sopt.server.service.ProductService;
-import org.sopt.server.service.dto.ProductDetailDto;
+import org.sopt.server.dto.response.ProductDetailDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;

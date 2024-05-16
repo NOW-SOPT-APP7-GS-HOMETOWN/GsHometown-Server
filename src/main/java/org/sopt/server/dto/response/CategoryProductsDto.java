@@ -1,4 +1,4 @@
-package org.sopt.server.service.dto;
+package org.sopt.server.dto.response;
 
 import java.util.List;
 import org.sopt.server.domain.type.Category;

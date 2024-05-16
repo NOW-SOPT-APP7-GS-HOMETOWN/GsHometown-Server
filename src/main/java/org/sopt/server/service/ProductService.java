@@ -14,9 +14,9 @@ import org.sopt.server.repository.LikeRepository;
 import org.sopt.server.repository.ProductDetailRepository;
 import org.sopt.server.repository.ProductRepository;
 import org.sopt.server.repository.ReviewRepository;
-import org.sopt.server.service.dto.CategoryProductsDto;
-import org.sopt.server.service.dto.ProductDetailDto;
-import org.sopt.server.service.dto.ProductDto;
+import org.sopt.server.dto.response.CategoryProductsDto;
+import org.sopt.server.dto.response.ProductDetailDto;
+import org.sopt.server.dto.response.ProductDto;
 import org.springframework.stereotype.Service;
 
 @Service
