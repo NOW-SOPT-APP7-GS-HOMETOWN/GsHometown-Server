@@ -1,9 +1,7 @@
-package org.sopt.server.service.dto;
+package org.sopt.server.dto.response;
 
 import lombok.Builder;
-import lombok.NonNull;
 import org.sopt.server.domain.Product;
-import org.sopt.server.domain.ProductDetail;
 
 @Builder
 public record ProductDetailDto(
@@ -17,16 +15,16 @@ public record ProductDetailDto(
         String detailImage
 ) {
 
-    public static ProductDetailDto of(final Product product, final ProductDetail productDetail, final Boolean isLiked, final Float starRating, final Integer reviewCount) {
+    public static ProductDetailDto of(final Product product, final Boolean isLiked, final Float starRating, final Integer reviewCount) {
         return ProductDetailDto.builder()
-                .thumbnail(productDetail.getThumbnail())
+                .thumbnail(product.getProductDetail().getThumbnail())
                 .title(product.getTitle())
                 .isLiked(isLiked)
                 .price(product.getPrice())
-                .isReceiveAvailable(productDetail.isReceiveAvailable())
+                .isReceiveAvailable(product.getProductDetail().isReceiveAvailable())
                 .starRating(starRating)
                 .reviewCount(reviewCount)
-                .detailImage(productDetail.getDetailImage())
+                .detailImage(product.getProductDetail().getDetailImage())
                 .build();
     }
 }
