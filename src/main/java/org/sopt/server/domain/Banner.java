@@ -14,7 +14,7 @@ public class Banner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "banner_imageUrl", nullable = false)
+    @Column(name = "banner_image_url", nullable = false)
     private String imageUrl;
 
     @Column(name = "banner_type", nullable = false)
