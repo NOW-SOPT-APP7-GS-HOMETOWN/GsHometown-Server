@@ -48,7 +48,7 @@ public class Product {
     private boolean isGsDiscount;
 
     /* nullable */
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
