@@ -30,11 +30,11 @@ public enum ErrorCode {
 
     /* 409 - CONFLICT */
     CONFLICT(40900, HttpStatus.CONFLICT, "Conflict"),
+    LIKE_ALREADY_EXISTS(40901, HttpStatus.CONFLICT, "이미 좋아요를 누른 상품입니다."),
+    LIKE_ALREADY_DELETE(40902, HttpStatus.CONFLICT, "이미 좋아요를 취소한 상품입니다."),
 
     /* 500 - INTERNAL SERVER ERROR */
-    INTERNAL_SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"),
-    LIKE_ALREADY_EXISTS(50001, HttpStatus.INTERNAL_SERVER_ERROR, "이미 좋아요를 누른 상품입니다."),
-    LIKE_ALREADY_DELETE(50002, HttpStatus.INTERNAL_SERVER_ERROR, "이미 좋아요를 취소한 상품입니다.")
+    INTERNAL_SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error")
     ;
 
     final int status;
