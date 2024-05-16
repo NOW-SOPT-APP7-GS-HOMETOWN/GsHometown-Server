@@ -28,4 +28,13 @@ public class Like {
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public static Like of(final Member member, final Product product) {
+        return new Like(member, product);
+    }
+
+    private Like(final Member member, final Product product) {
+        this.member = member;
+        this.product = product;
+    }
 }
