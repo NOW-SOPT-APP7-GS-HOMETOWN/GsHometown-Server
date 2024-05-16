@@ -28,12 +28,12 @@ public class ProductController {
 
     @GetMapping
     public ResponseDto<?> getProductsByType(@RequestParam(name = "type") final String type) {
-        if (type.equals("category")) {
-            return ResponseDto.success(productService.getCategoryProducts());
+        if (type.equals("basic")) {
+            return ResponseDto.success(null);
         } else if (type.equals("event")) {
             return ResponseDto.success(null);
-        } else { /* type.equals("basic") */
-            return ResponseDto.success(null);
+        } else { /* type.equals("category") */
+            return ResponseDto.success(productService.getCategoryProducts());
         }
     }
 
