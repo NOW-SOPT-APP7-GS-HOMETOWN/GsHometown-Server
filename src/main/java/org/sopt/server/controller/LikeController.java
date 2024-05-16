@@ -3,14 +3,10 @@ package org.sopt.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.server.common.dto.ResponseDto;
-import org.sopt.server.dto.request.LikeAddDto;
-import org.sopt.server.dto.response.LikeDto;
+import org.sopt.server.dto.request.LikeRequestDto;
+import org.sopt.server.dto.response.LikeResponseDto;
 import org.sopt.server.service.LikeService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/likes")
@@ -20,10 +16,18 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping
-    public ResponseDto<LikeDto> postLike(
+    public ResponseDto<LikeResponseDto> postLike(
             @RequestHeader("memberId") final Long memberId,
-            @RequestBody final LikeAddDto likeAddDto
+            @RequestBody final LikeRequestDto likeRequestDto
     ) {
-        return ResponseDto.success(likeService.postLike(memberId, likeAddDto));
+        return ResponseDto.success(likeService.postLike(memberId, likeRequestDto));
+    }
+
+    @DeleteMapping
+    public ResponseDto<LikeResponseDto> deleteLike(
+        @RequestHeader("memberId") final Long memberId,
+        @RequestBody final LikeRequestDto likeRequestDto
+    ) {
+        return ResponseDto.success(likeService.deleteLike(memberId, likeRequestDto));
     }
 }
