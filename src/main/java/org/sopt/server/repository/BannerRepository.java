@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface BannerRepository extends JpaRepository<Banner, Long> {
-    @Query(value = "SELECT image_url FROM \"gs \".banner WHERE type = :type", nativeQuery = true)
-    List<String> findImageUrlsByType(@Param("type") String type);
+    @Query("SELECT b FROM Banner b WHERE b.type = :type")
+    List<Banner> findImageUrlsByType(@Param("type") String type);
 }

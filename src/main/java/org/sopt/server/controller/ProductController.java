@@ -29,7 +29,7 @@ public class ProductController {
     @GetMapping
     public ResponseDto<?> getProductsByType(@RequestParam(name = "type") final String type) {
         if (type.equals("basic")) {
-            return ResponseDto.success(null);
+            return ResponseDto.success(productService.getAdvanceReservationScreen());
         } else if (type.equals("event")) {
             return ResponseDto.success(null);
         } else { /* type.equals("category") */
