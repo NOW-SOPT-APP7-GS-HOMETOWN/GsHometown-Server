@@ -3,17 +3,18 @@ package org.sopt.server.service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
+import org.sopt.server.domain.Banner;
 import org.sopt.server.domain.Like;
 import org.sopt.server.domain.Product;
 import org.sopt.server.domain.Review;
 import org.sopt.server.domain.type.Category;
+import org.sopt.server.dto.response.AdvanceReservationScreenDto;
 import org.sopt.server.exception.CommonException;
 import org.sopt.server.exception.dto.ErrorCode;
-import org.sopt.server.repository.LikeRepository;
-import org.sopt.server.repository.ProductDetailRepository;
-import org.sopt.server.repository.ProductRepository;
-import org.sopt.server.repository.ReviewRepository;
+import org.sopt.server.repository.*;
 import org.sopt.server.dto.response.CategoryProductsDto;
 import org.sopt.server.dto.response.ProductDetailDto;
 import org.sopt.server.dto.response.ProductDto;
@@ -25,7 +26,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final LikeRepository likeRepository;
-    private final ProductDetailRepository productDetailRepository;
+    private final BannerRepository bannerRepository;
     private final ReviewRepository reviewRepository;
 
     public ProductDetailDto getProductDetailInfo(final Long memberId, final Long productId) {
@@ -54,6 +55,18 @@ public class ProductService {
                 return ProductDto.of(cp, getStarRating(reviews), reviews.size());
             }).toList());
         }).toList();
+    }
+
+    public AdvanceReservationScreenDto getAdvanceReservationScreen() {
+        List<String> advanceTopBanners =  bannerRepository.findImageUrlsByType("advancetop").stream()
+                                                                        .map(Banner::getImageUrl)
+                                                                        .collect(Collectors.toList());// 사전 예약 화면에 탑 배너 이미지들
+
+        List<ProductDto> basicProducts = productRepository.findAllByCategory(Category.BASIC).stream()
+                                                .map(product -> ProductDto.of(product, getStarRating(product.getReviews()), product.getReviews().size()))
+                                                .collect(Collectors.toList());
+
+        return AdvanceReservationScreenDto.of(advanceTopBanners, basicProducts);
     }
 
     private Float getStarRating(final List<Review> reviews) {
