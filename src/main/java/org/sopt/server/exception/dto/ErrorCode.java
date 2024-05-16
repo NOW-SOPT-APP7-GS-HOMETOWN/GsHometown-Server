@@ -11,6 +11,7 @@ public enum ErrorCode {
 
     /* 400 - BAD REQUEST */
     BAD_REQUEST(40000, HttpStatus.BAD_REQUEST, "Bad Request"),
+    STAR_DECIMAL_POINT(40001, HttpStatus.BAD_REQUEST, "별점은 .0 또는 .5 단위의 소수만 가능합니다."),
 
     /* 401 - UNAUTHORIZED */
     UNAUTHORIZED(40100, HttpStatus.UNAUTHORIZED, "Unauthorized"),
