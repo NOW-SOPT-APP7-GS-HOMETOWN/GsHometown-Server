@@ -1,6 +1,5 @@
 package org.sopt.server.dto.response;
 
-import java.util.Date;
 import java.util.List;
 
 public record EventProductsResponseDto(
