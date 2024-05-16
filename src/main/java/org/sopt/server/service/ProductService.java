@@ -1,5 +1,6 @@
 package org.sopt.server.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -7,13 +8,16 @@ import org.sopt.server.domain.Like;
 import org.sopt.server.domain.Product;
 import org.sopt.server.domain.ProductDetail;
 import org.sopt.server.domain.Review;
+import org.sopt.server.domain.type.Category;
 import org.sopt.server.exception.CommonException;
 import org.sopt.server.exception.dto.ErrorCode;
 import org.sopt.server.repository.LikeRepository;
 import org.sopt.server.repository.ProductDetailRepository;
 import org.sopt.server.repository.ProductRepository;
 import org.sopt.server.repository.ReviewRepository;
+import org.sopt.server.service.dto.CategoryProductsDto;
 import org.sopt.server.service.dto.ProductDetailDto;
+import org.sopt.server.service.dto.ProductDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,7 +43,24 @@ public class ProductService {
         /* review count */
         List<Review> reviews = reviewRepository.findAllByProductId(productId);
         int reviewCount = reviews.size();
+        Float starRating = getStarRating(reviews);
 
+        return ProductDetailDto.of(product, productDetail, isLiked, starRating, reviewCount);
+    }
+
+    public List<CategoryProductsDto> getCategoryProducts() {
+        return Arrays.stream(Category.values()).map(category -> {
+            // 카테고리 별 상품 목록 조회
+            List<Product> categoryProducts = productRepository.findAllByCategory(category);
+            // 카테고리 상품 dto 생성
+            return CategoryProductsDto.of(category, categoryProducts.stream().map(cp -> {
+                List<Review> reviews = cp.getReviews();
+                return ProductDto.of(cp, getStarRating(reviews), reviews.size());
+            }).toList());
+        }).toList();
+    }
+
+    private Float getStarRating(final List<Review> reviews) {
         /* star rating */
         List<Float> stars = reviews.stream().map(Review::getStar).toList();
 
@@ -60,6 +81,6 @@ public class ProductService {
         starRating /= stars.size();
         starRating = Math.round(starRating * 10) / 10.0f; /* 한 자리 수까지 표현 */
 
-        return ProductDetailDto.of(product, productDetail, isLiked, starRating, reviewCount);
+        return starRating;
     }
 }

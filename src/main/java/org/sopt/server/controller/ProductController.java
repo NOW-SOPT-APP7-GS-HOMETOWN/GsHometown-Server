@@ -25,4 +25,16 @@ public class ProductController {
     ) {
         return ResponseDto.success(productService.getProductDetailInfo(memberId, productId));
     }
+
+    @GetMapping
+    public ResponseDto<?> getProductsByType(@RequestParam(name = "type") final String type) {
+        if (type.equals("category")) {
+            return ResponseDto.success(productService.getCategoryProducts());
+        } else if (type.equals("event")) {
+            return ResponseDto.success(null);
+        } else { /* type.equals("basic") */
+            return ResponseDto.success(null);
+        }
+    }
+
 }
