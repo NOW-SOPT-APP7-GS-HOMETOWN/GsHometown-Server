@@ -8,9 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Category {
 
-    BREAD("빵"),
+    SIDE_DISH_NOODLES("요리반찬/조리면"),
     REFRIGERATED_CONVINIENCE("냉장간편식"),
-    BASIC("기본 상품"),
+    GSPAY("GS Pay 상품"),
     EVENT("이벤트 상품")
     ;
 

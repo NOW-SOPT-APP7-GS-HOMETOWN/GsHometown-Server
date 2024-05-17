@@ -45,32 +45,36 @@ public class ProductService {
     }
 
     public List<CategoryProductsDto> getCategoryProducts() {
-        return Arrays.stream(Category.values()).map(category -> {
-            // 카테고리 별 상품 목록 조회
-            List<Product> categoryProducts = productRepository.findAllByCategory(category);
-            // 카테고리 상품 dto 생성
-            return CategoryProductsDto.of(category, categoryProducts.stream().map(cp -> {
-                List<Review> reviews = cp.getReviews();
-                return ProductDto.of(cp, getStarRating(reviews), reviews.size());
-            }).toList());
-        }).toList();
+        return Arrays.stream(Category.values())
+                   .filter(category -> category == Category.SIDE_DISH_NOODLES || category == Category.REFRIGERATED_CONVINIENCE)
+                   .map(category -> {
+                       // 카테고리 별 상품 목록 조회
+                       List<Product> categoryProducts = productRepository.findAllByCategory(category);
+                       // 카테고리 상품 dto 생성
+                       return CategoryProductsDto.of(category, categoryProducts.stream().map(cp -> {
+                           List<Review> reviews = cp.getReviews();
+                           return ProductDto.of(cp, getStarRating(reviews), reviews.size());
+                       }).toList());
+                   }).toList();
     }
 
     public AdvanceReservationScreenDto getAdvanceReservationScreen() {
         List<String> advanceTopBanners =  bannerRepository.findImageUrlsByType("advancetop").stream()
                                                                         .map(Banner::getImageUrl)
                                                                         .collect(Collectors.toList());// 사전 예약 화면에 탑 배너 이미지들
+        // 날짜 포맷 지정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        // 현재 날짜와 현재 날짜로부터 이틀 뒤 날짜
+        String date = LocalDate.now().format(formatter) + " ~ " + LocalDate.now().plusDays(2).format(formatter);
 
-        List<ProductDto> basicProducts = productRepository.findAllByCategory(Category.BASIC).stream()
+        List<ProductDto> gsPayProducts = productRepository.findAllByCategory(Category.GSPAY).stream()
                                                 .map(product -> ProductDto.of(product, getStarRating(product.getReviews()), product.getReviews().size()))
                                                 .collect(Collectors.toList());
 
-        return AdvanceReservationScreenDto.of(advanceTopBanners, basicProducts);
+        return AdvanceReservationScreenDto.of(advanceTopBanners,"[GS Pay 추가 할인] GS25 정육상품 4", date, gsPayProducts);
     }
 
     public EventProductsResponseDto getEvenetProducts() {
-        String headerTitle = "푸냥이 푸딩젤리 2탄!복숭아맛🍑";
-
         // 날짜 포맷 지정
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
         // 현재 날짜와 현재 날짜로부터 이틀 뒤 날짜
@@ -80,7 +84,7 @@ public class ProductService {
                                                  .map(product -> ProductDto.of(product, getStarRating(product.getReviews()), product.getReviews().size()))
                                                  .collect(Collectors.toList());
 
-        return EventProductsResponseDto.of(headerTitle, date, eventProducts);
+        return EventProductsResponseDto.of("푸냥이 푸딩젤리 2탄!복숭아맛🍑", date, eventProducts);
     }
 
     private Float getStarRating(final List<Review> reviews) {

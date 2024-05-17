@@ -8,9 +8,13 @@ import java.util.List;
 @Builder
 public record AdvanceReservationScreenDto(
     List<String> topBanners,
+
+    String headerTitle,
+
+    String date,
     List<ProductDto> products
 ) {
-    public static AdvanceReservationScreenDto of(List<String> topBanners, List<ProductDto> products){
-        return new AdvanceReservationScreenDto(topBanners, products);
+    public static AdvanceReservationScreenDto of(List<String> topBanners, String headerTitle, String date, List<ProductDto> products){
+        return new AdvanceReservationScreenDto(topBanners, headerTitle, date, products);
     }
 }

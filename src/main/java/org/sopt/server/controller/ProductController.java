@@ -28,7 +28,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseDto<?> getProductsByType(@RequestParam(name = "type") final String type) {
-        if (type.equals("basic")) {
+        if (type.equals("gspay")) {
             return ResponseDto.success(productService.getAdvanceReservationScreen());
         } else if (type.equals("event")) {
             return ResponseDto.success(productService.getEvenetProducts());
