@@ -39,6 +39,7 @@ public class LikeService {
     }
 
     public LikeResponseDto deleteLike(final Long memberId, final LikeRequestDto LikeRequestDto) {
+        Member member = memberRepository.findByIdOrThrow(memberId);
         // 취소할 상품이 존재하는지 먼저 확인
         Product product = productRepository.findByIdOrThrow(LikeRequestDto.productId());
 
