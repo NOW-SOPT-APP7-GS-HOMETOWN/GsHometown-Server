@@ -32,6 +32,14 @@ public class ProductService {
 
         Product product = productRepository.findByIdOrThrow(productId);
 
+        if (product.getProductDetail() == null) {
+            throw new CommonException(ErrorCode.PRODUCT_DETAIL_NOT_FOUND);
+        }
+        /*
+        products 테이블에는 상품이 존재하는데 product_details 에는 상품이 존재하지 않으면 에러 처리하도록 수정
+        -> 500에러가 나와서 404 에러가 나오도록 수정한 것임 !
+        */
+
         /* isLiked */
         Optional<Like> like = likeRepository.findByMemberIdAndProductId(memberId, productId);
         boolean isLiked = like.isPresent();

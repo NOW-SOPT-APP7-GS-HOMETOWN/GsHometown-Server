@@ -1,7 +1,7 @@
 package org.sopt.server.dto.request;
 
 
-public record LikeAddDto(
+public record LikeRequestDto(
         Long productId
 ) {
 }

@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.server.domain.Like;
 import org.sopt.server.domain.Member;
 import org.sopt.server.domain.Product;
-import org.sopt.server.dto.request.LikeAddDto;
+import org.sopt.server.dto.request.LikeRequestDto;
 import org.sopt.server.dto.response.LikeDto;
+import org.sopt.server.dto.response.LikeResponseDto;
 import org.sopt.server.exception.CommonException;
 import org.sopt.server.exception.dto.ErrorCode;
 import org.sopt.server.repository.LikeRepository;
@@ -22,8 +23,8 @@ public class LikeService {
     private final ProductRepository productRepository;
     private final LikeRepository likeRepository;
 
-    public LikeDto postLike(final Long memberId, final LikeAddDto LikeAddDto) {
-        Long productId = LikeAddDto.productId();
+    public LikeResponseDto postLike(final Long memberId, final LikeRequestDto LikeRequestDto) {
+        Long productId = LikeRequestDto.productId();
         Optional<Like> opLike = likeRepository.findByMemberIdAndProductId(memberId, productId);
         if (opLike.isPresent()) {
             throw new CommonException(ErrorCode.LIKE_ALREADY_EXISTS);
@@ -34,6 +35,20 @@ public class LikeService {
 
         likeRepository.save(Like.of(member, product));
 
-        return LikeDto.from(true);
+        return LikeResponseDto.from(true);
+    }
+
+    public LikeResponseDto deleteLike(final Long memberId, final LikeRequestDto LikeRequestDto) {
+        // 취소할 상품이 존재하는지 먼저 확인
+        Product product = productRepository.findByIdOrThrow(LikeRequestDto.productId());
+
+        Optional<Like> opLike = likeRepository.findByMemberIdAndProductId(memberId, LikeRequestDto.productId());
+        if (opLike.isEmpty()) {
+            throw new CommonException(ErrorCode.LIKE_ALREADY_DELETE);
+        }
+
+        likeRepository.delete(opLike.get());
+
+        return LikeResponseDto.from(false);
     }
 }
