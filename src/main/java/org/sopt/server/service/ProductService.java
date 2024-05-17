@@ -1,5 +1,7 @@
 package org.sopt.server.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -11,13 +13,10 @@ import org.sopt.server.domain.Like;
 import org.sopt.server.domain.Product;
 import org.sopt.server.domain.Review;
 import org.sopt.server.domain.type.Category;
-import org.sopt.server.dto.response.AdvanceReservationScreenDto;
+import org.sopt.server.dto.response.*;
 import org.sopt.server.exception.CommonException;
 import org.sopt.server.exception.dto.ErrorCode;
 import org.sopt.server.repository.*;
-import org.sopt.server.dto.response.CategoryProductsDto;
-import org.sopt.server.dto.response.ProductDetailDto;
-import org.sopt.server.dto.response.ProductDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -67,6 +66,21 @@ public class ProductService {
                                                 .collect(Collectors.toList());
 
         return AdvanceReservationScreenDto.of(advanceTopBanners, basicProducts);
+    }
+
+    public EventProductsResponseDto getEvenetProducts() {
+        String headerTitle = "푸냥이 푸딩젤리 2탄!복숭아맛🍑";
+
+        // 날짜 포맷 지정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        // 현재 날짜와 현재 날짜로부터 이틀 뒤 날짜
+        String date = LocalDate.now().format(formatter) + " ~ " + LocalDate.now().plusDays(2).format(formatter);
+
+        List<ProductDto> eventProducts = productRepository.findAllByCategory(Category.EVENT).stream()
+                                                 .map(product -> ProductDto.of(product, getStarRating(product.getReviews()), product.getReviews().size()))
+                                                 .collect(Collectors.toList());
+
+        return EventProductsResponseDto.of(headerTitle, date, eventProducts);
     }
 
     private Float getStarRating(final List<Review> reviews) {

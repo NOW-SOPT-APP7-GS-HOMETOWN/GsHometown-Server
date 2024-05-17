@@ -31,7 +31,7 @@ public class ProductController {
         if (type.equals("basic")) {
             return ResponseDto.success(productService.getAdvanceReservationScreen());
         } else if (type.equals("event")) {
-            return ResponseDto.success(null);
+            return ResponseDto.success(productService.getEvenetProducts());
         } else { /* type.equals("category") */
             return ResponseDto.success(productService.getCategoryProducts());
         }
