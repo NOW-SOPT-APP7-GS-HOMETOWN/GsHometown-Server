@@ -45,15 +45,17 @@ public class ProductService {
     }
 
     public List<CategoryProductsDto> getCategoryProducts() {
-        return Arrays.stream(Category.values()).map(category -> {
-            // 카테고리 별 상품 목록 조회
-            List<Product> categoryProducts = productRepository.findAllByCategory(category);
-            // 카테고리 상품 dto 생성
-            return CategoryProductsDto.of(category, categoryProducts.stream().map(cp -> {
-                List<Review> reviews = cp.getReviews();
-                return ProductDto.of(cp, getStarRating(reviews), reviews.size());
-            }).toList());
-        }).toList();
+        return Arrays.stream(Category.values())
+                   .filter(category -> category == Category.SIDE_DISH_NOODLES || category == Category.REFRIGERATED_CONVINIENCE)
+                   .map(category -> {
+                       // 카테고리 별 상품 목록 조회
+                       List<Product> categoryProducts = productRepository.findAllByCategory(category);
+                       // 카테고리 상품 dto 생성
+                       return CategoryProductsDto.of(category, categoryProducts.stream().map(cp -> {
+                           List<Review> reviews = cp.getReviews();
+                           return ProductDto.of(cp, getStarRating(reviews), reviews.size());
+                       }).toList());
+                   }).toList();
     }
 
     public AdvanceReservationScreenDto getAdvanceReservationScreen() {
